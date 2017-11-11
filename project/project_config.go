@@ -15,8 +15,12 @@ type ExportedConfig struct {
 
 // Config validates and print the compose file.
 func (p *Project) Config() (string, error) {
+	version := p.configVersion
+	if version == "" {
+		version = "2.0"
+	}
 	cfg := ExportedConfig{
-		Version:  "2.0",
+		Version:  version,
 		Services: p.ServiceConfigs.All(),
 		Volumes:  p.VolumeConfigs,
 		Networks: p.NetworkConfigs,

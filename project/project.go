@@ -312,7 +312,7 @@ func (p *Project) handleNetworkConfig() {
 }
 
 func (p *Project) isNetworkEnabled() bool {
-	return p.configVersion == "2"
+	return strings.HasPrefix(p.configVersion, "2")
 }
 
 func (p *Project) handleVolumeConfig() {
@@ -347,7 +347,7 @@ func (p *Project) handleVolumeConfig() {
 }
 
 func (p *Project) isVolumeEnabled() bool {
-	return p.configVersion == "2"
+	return strings.HasPrefix(p.configVersion, "2")
 }
 
 // initialize sets up required element for project before any action (on project and service).
