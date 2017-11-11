@@ -30,6 +30,7 @@ func init() {
 type (
 	environmentFormatChecker struct{}
 	portsFormatChecker       struct{}
+	durationFormatChecker    struct{}
 )
 
 func (checker environmentFormatChecker) IsFormat(input string) bool {
@@ -42,6 +43,11 @@ func (checker environmentFormatChecker) IsFormat(input string) bool {
 func (checker portsFormatChecker) IsFormat(input string) bool {
 	_, _, err := nat.ParsePortSpecs([]string{input})
 	return err == nil
+}
+
+func (checker durationFormatChecker) IsFormat(input string) bool {
+	// TODO implement duration checker
+	return true
 }
 
 func setupSchemaLoaders(schemaData string, schema *map[string]interface{}, schemaLoader, constraintSchemaLoader *gojsonschema.JSONLoader) error {
@@ -60,6 +66,7 @@ func setupSchemaLoaders(schemaData string, schema *map[string]interface{}, schem
 	gojsonschema.FormatCheckers.Add("environment", environmentFormatChecker{})
 	gojsonschema.FormatCheckers.Add("ports", portsFormatChecker{})
 	gojsonschema.FormatCheckers.Add("expose", portsFormatChecker{})
+	gojsonschema.FormatCheckers.Add("duration", durationFormatChecker{})
 	*schemaLoader = gojsonschema.NewGoLoader(schemaRaw)
 
 	definitions := (*schema)["definitions"].(map[string]interface{})
